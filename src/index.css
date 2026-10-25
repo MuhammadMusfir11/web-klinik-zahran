@@ -1,0 +1,252 @@
+@import "tailwindcss";
+
+@theme {
+  --color-forest: #0f4c81;
+  --color-forest-dark: #0a3560;
+  --color-sage: #a9cbea;
+  --color-ivory: #f4f8fc;
+  --color-charcoal: #0e2236;
+  --color-muted: #5a6b7d;
+  --color-line: #dde6ef;
+  --color-ember: #0a7c91;
+  --color-mist: #e8f0f8;
+
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Newsreader", ui-serif, Georgia, serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  background-color: var(--color-ivory);
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-forest);
+  color: #fff;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-forest);
+  outline-offset: 3px;
+}
+
+/* ---------- Animasi dasar ---------- */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.rise {
+  animation: rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.step-in {
+  animation: rise 0.35s ease-out both;
+}
+
+.fade-in {
+  animation: fade 0.25s ease-out both;
+}
+
+/* ---------- Muncul saat di-scroll ---------- */
+/* Isi naik halus; judul (h2) terbuka dari garis potong, bukan sekadar memudar. */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal h2 {
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(0.35em);
+  transition:
+    clip-path 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s,
+    transform 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+}
+
+.reveal.is-visible h2 {
+  clip-path: inset(-10% -2% -20% -2%);
+  transform: none;
+}
+
+/* ---------- Judul hero: kata naik dari balik garis potong ---------- */
+
+.split-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0.08em 0.06em 0.14em;
+  margin: -0.08em -0.06em -0.14em;
+}
+
+.split-word > span {
+  display: inline-block;
+  transform: translateY(115%);
+  animation: wordUp 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(var(--base, 0ms) + var(--i, 0) * 80ms);
+}
+
+@keyframes wordUp {
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Tirai transisi halaman ---------- */
+
+.curtain {
+  animation: curtain 0.9s cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+
+@keyframes curtain {
+  0%,
+  30% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+
+.curtain-label {
+  animation: curtainLabel 0.9s ease both;
+}
+
+@keyframes curtainLabel {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  18%,
+  28% {
+    opacity: 1;
+    transform: none;
+  }
+  40%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ---------- Navbar masuk dari atas setelah tirai terangkat ---------- */
+
+.nav-in {
+  animation: navIn 1s cubic-bezier(0.16, 1, 0.3, 1) 0.75s both;
+}
+
+@keyframes navIn {
+  from {
+    transform: translateY(-160%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+/* ---------- Tombol: warna naik dari bawah saat disorot ---------- */
+
+.sweep {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.sweep::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--sweep-bg, var(--color-forest-dark));
+  transform: translateY(101%);
+  transition: transform 0.5s cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+.sweep:hover::before,
+.sweep:focus-visible::before {
+  transform: translateY(0);
+}
+
+/* ---------- Tautan: garis bawah tergambar dari kiri ---------- */
+
+.link-draw {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-size: 0% 1.5px;
+  background-position: 100% 100%;
+  transition: background-size 0.45s cubic-bezier(0.7, 0, 0.2, 1);
+}
+
+.link-draw:hover,
+.link-draw:focus-visible {
+  background-size: 100% 1.5px;
+  background-position: 0 100%;
+}
+
+/* ---------- Hormati preferensi "kurangi gerakan" ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  .reveal,
+  .reveal h2 {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+  }
+
+  .curtain {
+    display: none;
+  }
+}
