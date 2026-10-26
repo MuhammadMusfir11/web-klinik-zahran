@@ -76,7 +76,7 @@ export default function Doctors() {
 
         <Reveal delay={80} className="mt-10 grid gap-5 lg:mt-12 lg:grid-cols-12 lg:gap-12">
           {/* Daftar dokter */}
-          <div className="lg:col-span-4">
+          <div className="min-w-0 lg:col-span-4">
             <div
               role="tablist"
               aria-label="Daftar dokter"
@@ -125,7 +125,7 @@ export default function Doctors() {
             id="doctor-panel"
             aria-labelledby={`tab-${doctor.id}`}
             tabIndex={0}
-            className="step-in rounded-2xl border border-line bg-white p-5 md:p-8 lg:col-span-8"
+            className="step-in min-w-0 rounded-2xl border border-line bg-white p-5 md:p-8 lg:col-span-8"
           >
             <div className="md:grid md:grid-cols-5 md:gap-10">
               {/* Foto besar (tablet ke atas) */}
